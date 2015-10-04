@@ -1,0 +1,11 @@
+source https://nuget.org/api/v2
+
+nuget Suave
+nuget Suave.DotLiquid
+nuget FAKE
+nuget Microsoft.Azure.DocumentDB
+nuget DotLiquid
+nuget FsPickler
+nuget FsPickler.Json
+nuget FsPickler.CSharp
+nuget Newtonsoft.Json

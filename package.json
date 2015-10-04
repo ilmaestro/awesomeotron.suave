@@ -1,0 +1,31 @@
+{
+  "name": "awesome-o-tron",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "bower": "^1.5.3"
+  },
+  "devDependencies": {
+    "add-stream": "^1.0.0",
+    "del": "^2.0.2",
+    "gulp": "^3.9.0",
+    "gulp-angular-templatecache": "^1.7.0",
+    "gulp-bower": "0.0.10",
+    "gulp-bytediff": "^1.0.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-if": "^2.0.0",
+    "gulp-load-plugins": "^1.0.0-rc.1",
+    "gulp-minify-html": "^1.0.4",
+    "gulp-notify": "^2.2.0",
+    "gulp-sass": "^2.0.4",
+    "gulp-task-listing": "^1.0.1",
+    "gulp-tsd": "0.0.4",
+    "typescript": "^1.6.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

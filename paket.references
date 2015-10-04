@@ -1,0 +1,9 @@
+Suave
+Suave.DotLiquid
+FAKE
+Microsoft.Azure.DocumentDB
+DotLiquid
+FsPickler
+FsPickler.Json
+FsPickler.CSharp
+Newtonsoft.Json

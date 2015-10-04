@@ -1,0 +1,26 @@
+{
+  "name": "AwesomeOTron",
+  "version": "0.0.0",
+  "authors": [
+    "ryan <ilmaestro@gmail.com>"
+  ],
+  "description": "AwesomeOTron web app",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5"
+  },
+  "devDependencies": {
+    "angularjs": "~1.4.7",
+    "fontawesome": "~4.4.0",
+    "bootstrap-sass": "~3.3.5",
+    "angular-ui": "~0.4.0",
+    "angular-ui-router": "~0.2.15"
+  }
+}
