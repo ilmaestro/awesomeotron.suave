@@ -21,6 +21,7 @@
     "fontawesome": "~4.4.0",
     "bootstrap-sass": "~3.3.5",
     "angular-ui": "~0.4.0",
-    "angular-ui-router": "~0.2.15"
+    "angular-ui-router": "~0.2.15",
+    "angular-resource": "~1.4.7"
   }
 }

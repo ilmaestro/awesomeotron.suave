@@ -16,12 +16,13 @@ open Suave                 // always open suave
 open Fake
 open System
 open System.IO
+open Suave.Web
 open Suave.Http
 open Suave.Http.Applicatives
-open Suave.Http.Successful // for OK-result
-open Suave.Web             // for config
+open Suave.Http.Successful
 open Suave.Http.Files
 open Suave.Http.Writers
+open Suave.Types
 open Nessos.FsPickler
 open Nessos.FsPickler.Json
 open Nessos.FsPickler.Combinators
@@ -58,14 +59,25 @@ let browseStaticFiles (ctx : Types.HttpContext) = async {
 
 DotLiquid.setTemplatesDir (__SOURCE_DIRECTORY__ + "/src/server/templates")
 
+type ryan = {
+  bork: string
+}
+
+let rk =
+  [
+  {bork = "hellllo bork 1"}
+  {bork = "hellllo bork 2"} ]
+  |> Seq.map (fun p -> p)
 
 let serverWebpart = path "/" >>= delay (fun () ->
     DotLiquid.page "home.html" ())
 
-let peopleWebpart = rest "people" {
-    GetAll = Db.getPeople
-    Create = Db.createPerson
-}
+let peopleWebpart =
+  choose [
+    GET >>= path "/api/people" >>= delay (fun () ->
+        Rest.to_json Db.getPeople |> Successful.ok)
+    POST >>= path "/api/people" >>= request (Rest.map_json Db.createPerson)
+  ]
 
 
 let startWebServer port =

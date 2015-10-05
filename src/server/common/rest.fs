@@ -1,59 +1,33 @@
-namespace AwesomeOTron
+module Rest
 
-type RestResource<'a> = {
-  GetAll : unit -> 'a seq
-  Create : 'a -> 'a
-}
+open System
+open System.Text
+open Suave.Http
+open Suave.Http.Applicatives
+open Suave.Http.Successful
+open Suave.Types
+open Newtonsoft.Json
+open Newtonsoft.Json.Serialization
+open Newtonsoft.Json.Converters
 
-[<AutoOpen>]
-module Rest =
+type CustomDateTimeConverter() =
+  inherit IsoDateTimeConverter()
+  do base.DateTimeFormat <- "yyyy-MM-dd"
 
-  open System
-  open Suave.Http
-  open Suave.Http.Applicatives
-  open Suave.Http.Successful
-  open Suave.Types
-  open Newtonsoft.Json
-  open Newtonsoft.Json.Serialization
+let converters : JsonConverter[] = [| CustomDateTimeConverter() |]
 
+/// Convert the object to a JSON representation inside a byte array (can be made string of)
+let to_json<'a> (o: 'a) =
+  Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(o, converters))
 
-  type ryan = {
-    bork: string
-  }
+/// Transform the byte array representing a JSON object to a .Net object
+let from_json<'a> (bytes:byte []) =
+  JsonConvert.DeserializeObject<'a>(Encoding.UTF8.GetString(bytes), converters)
 
-  let rk () =
-    [
-    {bork = "hellllo bork 1"}
-    {bork = "hellllo bork 2"} ]
-    |> Seq.map (fun p -> p)
-
-
-  let JSON v =
-    let jsonSerializerSettings = new JsonSerializerSettings()
-    jsonSerializerSettings.ContractResolver <- new CamelCasePropertyNamesContractResolver()
-    JsonConvert.SerializeObject(v, jsonSerializerSettings)
-    |> OK
-    >>= Writers.setMimeType "application/json; charset=utf-8"
-
-  let fromJSON<'a> json =
-    JsonConvert.DeserializeObject(json, typeof<'a>) :?> 'a
-
-  let getResourceFromReq<'a> (req : HttpRequest) =
-    let getRawString rawForm = System.Text.Encoding.UTF8.GetString(rawForm)
-    req.rawForm |> getRawString |> fromJSON<'a>
-
-  let rest resourceName resource =
-    let resourcePath = "/" + resourceName
-    path resourcePath
-      >>= choose [
-        GET >>= (resource.GetAll() |> JSON)
-        POST >>= request (getResourceFromReq >> resource.Create >> JSON)
-        ]
-
-
-  let jsonTest () = [fromJSON<ryan> "{'bork': 'test'}"] |> Seq.map(fun p -> p)
-
-  let peopleWebpart = rest "people" {
-      GetAll = jsonTest //rk
-      Create = (fun r -> r)
-  }
+/// Expose function f through a json call; lets you write like
+///
+/// let app =
+///   url "/path" >>= request (map_json some_function);
+///
+let map_json f (r : Suave.Types.HttpRequest) =
+  f (from_json(r.rawForm)) |> to_json |> Successful.ok

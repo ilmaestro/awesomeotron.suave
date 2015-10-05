@@ -12,6 +12,7 @@ var config = {
     "./bower_components/jquery/dist/jquery.js",
     "./bower_components/bootstrap/dist/js/bootstrap.js",
     "./bower_components/angularjs/angular.js",
+    "./bower_components/angular-resource/angular-resource.js",
     "./bower_components/angular-ui/build/angular-ui.js",
     "./bower_components/angular-ui-router/release/angular-ui-router.js",
   ],
@@ -48,7 +49,8 @@ gulp.task('tsc', function(done) {
     runTSC('src/client', done);
 });
 function runTSC(directory, done) {
-    var tscjs = path.join(process.cwd(), 'node_modules/typescript/bin/tsc.js');
+    var tscjs = path.join(process.cwd(), 'node_modules/typescript/lib/tsc.js');
+    console.log(tscjs);
     var childProcess = cp.spawn('node', [tscjs, '-p', directory], { cwd: process.cwd() });
     childProcess.stdout.on('data', function (data) {
         // Ticino will read the output

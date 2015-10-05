@@ -1,9 +1,11 @@
 /// <reference path="../typings.d.ts" />
 
 namespace app {
-    'use strict';
+    "use strict";
 
-    angular.module('app', [
-        'app.core', 'app.layout'
+    angular.module("app", [
+        "app.core",
+        "app.model", 
+        "app.layout"
     ]);
 }

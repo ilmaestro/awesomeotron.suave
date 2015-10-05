@@ -4,15 +4,15 @@ var app;
     (function (core) {
         "use strict";
         angular
-            .module('app.core')
+            .module("app.core")
             .config(configureStates)
             .run(appRun);
         appRun.$inject = [];
         function appRun() { }
-        configureStates.$inject = ['$stateProvider', '$locationProvider', '$urlRouterProvider'];
+        configureStates.$inject = ["$stateProvider", "$locationProvider", "$urlRouterProvider"];
         /* @ngInject */
         function configureStates($stateProvider, $locationProvider, $urlRouterProvider) {
-            var otherwise = '/404';
+            var otherwise = "/404";
             var states = getStates();
             states.forEach(function (state) {
                 $stateProvider.state(state.state, state.config);
@@ -23,11 +23,20 @@ var app;
         function getStates() {
             return [
                 {
-                    state: '404',
+                    state: "404",
                     config: {
-                        url: '/404',
-                        templateUrl: 'app/core/404.html',
-                        title: '404'
+                        url: "/404",
+                        templateUrl: "core/404.html",
+                        title: "404"
+                    }
+                },
+                {
+                    state: "people",
+                    config: {
+                        url: "/people",
+                        template: "layout/people/people.html",
+                        title: "People",
+                        controller: app.layout.People.PeopleController
                     }
                 }
             ];
